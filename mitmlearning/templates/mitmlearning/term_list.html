@@ -1,0 +1,96 @@
+{% extends 'base.html' %}
+
+{% block title %}用語一覧{% endblock %}
+{% block h1 %}用語一覧{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a class="current" href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+<article>
+    <div class="content">
+        
+
+        <div class="card my-4">
+            <h4 class="midashi">用語一覧</h4>
+            <a href="{% url 'create-term' %}">新しい用語を追加する</a>
+            <div class="card-body">
+                    {% for item in term_data %}
+                        <div class="heading tag">
+                            <h3 class="">{{ item.term }} <span class="small"> - {{ item.category }} </span></h3>
+                            <div class="mt-3">
+                                <a href="{% url 'detail-term' item.pk %}">詳細へ</a>
+                            </div>
+                        </div>
+                    <br>
+                    {% endfor %}
+            </div>
+        </div>
+    </div>
+
+    <div class="side">
+        <div class="card my-4">
+            <h5 class="midashi">カテゴリ</h5>
+            <div class="card-body">
+                <div class="row">
+                    {% for category in category_data %}
+                        <div class="col-md-6">
+                            <ul class="list=unstyled">
+                                <li>
+                                    <a href="{% url 'category' category %}">
+                                        {{ category.name }}
+                                    </a>
+                                </li>
+                            </ul>
+                        </div>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+        
+        <div class="card my-4">
+            <h4 class="midashi">対策方法メール送信</h4>
+            <div class="card-body">
+                <div class="row">
+                    <p>最低限、身につけておくべき知識等をまとめたメールを送信します。</p>
+                    <p>メールアドレスを下記入力欄に入力すると、システムから対策方法をまとめたメールが送信されます。
+                    メールが届かない場合は、迷惑メールの確認や時間を開けて再度入力するようにしてください。</p>
+                    <p>@ezweb、@docomo、@softbank等のキャリアメールは正常に動作しない場合があります。</p>
+                    <form action="{% url 'send_countermeasure_email' %}" method="post">
+                        {% csrf_token %}
+                        <div class="d-grid gap-2 form-group">
+                            <label for="input_email" class="heading tag">メールアドレス</label>
+                            <input type="email" name="countermeasure_email" class="form-control" id="countermeasure_email" placeholder="Enter email">
+                            <input type="submit" name="send_countermeasure_email" class="btn btn-outline-info" value="送信">
+                        </div>
+                    </form>
+                </div>
+            </div>
+
+            {% if messages %}
+                <ul class="messages">
+                    {% for message in messages %}
+                        <li class="alert alert-success" role="alert">{{ message }}</li>
+                    {% endfor %}
+                </ul>
+            {% endif %}
+        </div>
+    </div>
+</article>
+{% endblock content %}

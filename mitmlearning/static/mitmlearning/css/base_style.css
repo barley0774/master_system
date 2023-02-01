@@ -1,0 +1,60 @@
+ul {
+    color: #1e366a;
+    border-top: solid #1e366a 1px;/*上のボーダー*/
+    border-bottom: solid #1e366a 1px;/*下のボーダー*/
+    padding: 0.5em 0 0.5em 1.5em;
+    background-color: #FFF;
+  }
+
+  ul li {
+    line-height: 1.5;
+    padding: 0.5em 0;
+  }
+
+  body{
+    color:#594545;
+    background-color: #FFF8EA;
+    font-weight: bold;
+  }
+
+  a{
+    color : #815B5B;
+  }
+
+  /*
+付箋のようなもの
+参考：https://mlog.wlaboratory.com/entry/category/css/tag-style-heading
+*/
+.heading.tag {
+    text-decoration: none;
+    padding: 0.5rem;
+    font-weight: bold;
+    background: #f7f7f7;
+    border-left: solid 6px #594545;
+    color: #594545;
+    box-shadow: 5px 5px 5px rgba(0, 0, 0, 0.22);
+}
+
+.midashi {
+    background: #594545;
+	color: #FFF8EA;
+	padding: 0.75rem 2rem;
+
+}
+
+.side {
+ width:25%;
+ height:300px;
+ margin-right:10px;
+} 
+
+.content {
+ width:75%;
+ height:300px;
+ margin-left:20px;
+ margin-right:20px;/*サイドバーとメインコンテンツの間に隙間                    をあけた*/
+}
+
+article {
+ display:flex;/*サイドバーとメインコンテンツを横並びにする                指定をした*/
+}

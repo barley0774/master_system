@@ -1,0 +1,25 @@
+{% load static %}
+
+<!doctype html>
+    <html lang="ja">
+    <head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/destyle.css@3.0.2/destyle.min.css">
+        <!-- Bootstrap CSS -->
+        <link rel="stylesheet" href="{% static 'mitmlearning/css/bootstrap.css' %}">
+        <script src="{% static 'mitmlearning/js/jquery-3.6.0.min.js' %}"></script>
+        <script src="{% static 'mitmlearning/js/bootstrap.bundle.min.js' %}"></script>        <link rel="stylesheet" href="{% static 'mitmlearning/css/navbar.css' %}">
+        <link rel="stylesheet" href="{% static 'mitmlearning/css/base_style.css' %}">
+
+        <title>{% block title %}{% endblock %}</title>
+    </head>
+    <body>
+        <h1>{% block h1 %}{% endblock %}</h1>
+
+        {% block navbar %}{% endblock %}
+        <br>
+        {% block content %}{% endblock %}
+    </body>
+</html>

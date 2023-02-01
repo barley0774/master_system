@@ -1,0 +1,43 @@
+{% extends 'base2.html' %}
+
+{% block title %}アカウント作成{% endblock %}
+{% block h1 %}アカウント作成{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a class="current" href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="card my-4">
+    <h4 class="midashi">ログイン</h4>
+    <div class="card-body">
+        <div class="row">
+            <div>アカウントを作成します。</div>
+            <form method="post" class="p-4 m-4 bg-light border border-success rounded form-group">
+              {% csrf_token %}
+              <input type="text" name="username" class="form-control mt-4" placeholder="ユーザー ID">
+              <input type="password" name="password1" class="form-control mt-4" placeholder="パスワード">
+              <input type="password" name="password2" class="form-control mt-4" placeholder="パスワード確認用">
+              {% if form.errors %}
+                <span class="mb-2 small text-danger d-block text-start">利用できないユーザー ID やパスワードの可能性があります。入力内容を再度ご確認ください。</span>
+              {% endif %}
+              <button type="submit" class="btn btn-success m-2">アカウント作成</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

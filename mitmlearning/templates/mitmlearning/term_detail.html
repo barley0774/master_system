@@ -1,0 +1,46 @@
+{% extends 'base2.html' %}
+{% load static%}
+
+{% block title %}{{ object.title }}{% endblock %}
+{% block h1 %}用語詳細{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a class="current" href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'mitmlearning/css/counter.css' %}">
+
+    <div class="card my-4">
+        <h4 class="midashi">用語の詳細</h4>
+        <div class="card-body">
+            <div class="row">
+                <h4 class="heading tag">{{ term_data.term }}</h4>
+                <p>{{ term_data.text|linebreaksbr }}</p>
+                {% if term_data.image %}
+                    <img src="{{ term_data.image.url }}" alt="" class="img">
+                {% endif %}
+                <div class="border p-4 mb-2">
+                    <a href="{% url 'list-term' %}" class="btn btn-outline-info">一覧へ</a>
+                    <a href="{% url 'update-term' term_data.pk %}" class="btn btn-outline-info">編集する</a>
+                    <a href="{% url 'delete-term' term_data.pk %}" class="btn btn-outline-info">削除する</a>
+                </div>
+                <h6 class="card-title">カテゴリ：{{ term_data.category }}</h6>
+            </div>
+        </div>
+    </div>
+{% endblock %}

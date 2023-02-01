@@ -1,0 +1,39 @@
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+
+{% block title %}用語削除{% endblock %}
+
+{% block h1 %}無線LANのセキュリティリスク学習{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a class="current" href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="card my-4">
+  <h4 class="midashi">用語の削除</h4>
+  <div class="card-body">
+      <div class="row">
+          <form method="post">
+            {% csrf_token %}
+            {{ form.as_p }}
+            <button type="submit" class="btn btn-outline-dark">{{ object.term }}を削除する</button>
+          </form>
+      </div>
+  </div>
+</div>
+{% endblock %}

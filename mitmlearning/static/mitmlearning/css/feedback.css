@@ -1,0 +1,23 @@
+.my-parts {
+    overflow-x: auto;
+    -webkit-overflow-scrolling: touch;
+    max-width: 90%;
+    margin:auto;
+  }
+  .my-parts table {
+    border-collapse: collapse;
+    border: 1px solid rgba(0,0,0,.1);
+    table-layout: fixed;
+    width: 100%;
+  }
+  .my-parts th, .my-parts td {
+    border: 1px solid rgba(0,0,0,.1);
+    padding: .6em;
+    text-align: center;
+    background: #fff;
+  }
+  .my-parts th {
+    background: #d9333f;
+    color: #fff;
+    font-weight: bold;
+  }

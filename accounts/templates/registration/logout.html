@@ -1,0 +1,34 @@
+{% extends 'base2.html' %}
+
+{% block title %}ログイン{% endblock %}
+{% block h1 %}ログイン{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a class="current" href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="card my-4">
+    <h4 class="midashi">ログアウト</h4>
+    <div class="card-body">
+        <div class="row">
+            <div>ログアウトしました。</div>
+            <p><a href="{% url 'list-term' %}">用語集へ戻る</a></p>
+        </div>
+    </div>
+</div>
+{% endblock %}

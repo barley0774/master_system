@@ -1,0 +1,38 @@
+/* 順序付きリストcss
+参照:https://www.yuu-diaryblog.com/2017/03/14/list-design/ */
+
+ol{
+    counter-reset:list;
+    list-style-type:none;
+    font: 14px/1.6 'arial narrow', sans-serif;
+    padding:0;
+  }
+  ol li{
+    position:relative;
+    margin: 7px 0 7px 0px;
+    padding-left:40px;
+    font-weight: bold;
+    font-size:16px;
+    line-height: 30px;
+    border: 2px solid #594545;
+    color: #594545;
+  }
+  ol li:before{
+    counter-increment: list;
+    content: counter(list);
+    position: absolute;
+    left: 0px;
+    width: 30px;
+    height: 30px;
+    text-align: center;
+    color: #fff;
+    line-height:30px;
+    background: #594545;
+    top: 50%;
+    -moz-transform: translateY(-50%);
+    -webkit-transform: translateY(-50%);
+    -o-transform: translateY(-50%);
+    -ms-transform: translateY(-50%);
+    transform: translateY(-50%);
+  }
+

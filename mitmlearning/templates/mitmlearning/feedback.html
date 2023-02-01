@@ -1,0 +1,163 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block title %}フィードバック{% endblock %}
+{% block h1 %}フィードバック{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a class="current" href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'mitmlearning/css/feedback.css' %}">
+
+<div class="contents">
+    <div class="card my-4">
+        <h4 class="midashi">学習の終了</h4>
+        <div class="card-body">
+            <div class="row">
+                <p>「学習終了」を押すと、学習を終了することが出来ます。</p>
+                <p>処理に時間がかかる場合があるため、10秒ほど経ってからかURLバーの左にあるマークが矢印になってから次の操作をするようにしてください。</p>
+                <p>
+                    処理が完了したら、「盗聴された情報を表示」を押すことで、盗聴された情報があれば確認することが出来ます。
+                    また、「URL表示」を押すことで、アクセスしたURLを確認することが出来ます。
+                    なりすまし被害体験では、メールアドレスを入力することで、なりすましによってどのようなことが起こるか、入力したメールアドレス宛に体験メールを送信します。
+                </p>
+
+                <form action="{% url 'stop_attack' %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <input id="stop-btn" type="submit" name="stop_attack_button" class="btn btn-outline-info" value="体験終了">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+    <div class="card my-4">
+        <h4 class="midashi">盗聴された情報一覧</h4>
+        <div class="card-body">
+            <div class="row">
+                <p>盗聴された情報があれば、以下にある表にIDやパスワードが表示されます。</p>
+                <form>
+                    <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                        <input type="button" value="盗聴された情報を表示" class="btn btn-outline-dark" onclick="show_credentials(0, 'credentials-table')">
+                        <input type="button" value="盗聴された情報を非表示" class="btn btn-outline-secondary" onclick="show_credentials(1, 'credentials-table')">
+                    </div>
+                </form>
+
+                <div class="my-parts" id="credentials-table" style="display:none;">
+                    <table align="center" id="credentials">
+                        <tr>
+                            <th>盗聴されたID</th>
+                            <th>盗聴されたパスワード</th>
+                        </tr>
+                        <!-- <tr>
+                            <td>sato0415e@gmail.com</td>
+                            <td>1234567890</td>
+                        </tr> -->
+                        {% for user, password in zip_list %}
+                        <tr>
+                            <td>{{ user }}</td>
+                            <td>{{ password }}</td>
+                        </tr>
+                        {% endfor %}
+                    </table>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <div class="show_url">
+        <div class="card my-4">
+            <h4 class="midashi">アクセスしたURL</h4>
+            <div class="card-body">
+                <div class="row">
+                    <p>アクセスしたURLが記録されていれば、URL表示ボタンを押すことで表示できます。</p>
+
+                    <form>
+                        <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                            <input type="button" value="URL表示" class="btn btn-outline-dark" onclick="show_info(0, 'disp')">
+                            <input type="button" value="URL非表示" class="btn btn-outline-secondary" onclick="show_info(1, 'disp')">
+                        </div>
+                    </form>
+
+                    <div id="disp" style="display:none;">
+
+                        <ul>
+                            {% for value in url_list %}
+                                <li>{{ value }}</li>
+                            {% endfor %}
+                        </ul>
+                        {% for value in url_list %}
+                            <p>{{ value }}</p>
+                        {% endfor %}
+                    </div>
+                </div>  
+            </div>  
+        </div>  
+    </div>  
+
+    <div class="card my-4">
+        <h4 class="midashi">なりすまし被害体験</h4>
+        <div class="card-body">
+            <div class="row">
+                <p>メールアドレスやパスワードが悪用されるとどのようなことが起こるか体験できます。</p>
+                <p>メールアドレスを下記入力欄に入力すると、システムからなりすまし被害体験のメールが送信されます。
+                メールが届かない場合は、迷惑メールの確認や時間を開けて再度入力するようにしてください。</p>
+                <p>@ezweb、@docomo、@softbank等のキャリアメールは正常に動作しない場合があります。</p>
+                <form action="{% url 'send_impersonation_email' %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2 form-group">
+                        <label for="input_email" class="heading tag">メールアドレス</label>
+                        <input type="email" name="impersonation_email" class="form-control" id="impersonation_email" placeholder="Enter email">
+                        <input type="submit" name="send_impersonation_email" class="btn btn-outline-info" value="送信">
+                    </div>
+                </form>
+                
+                {% if messages %}
+                    <ul class="messages">
+                        {% for message in messages %}
+                            <li class="alert alert-success" role="alert">{{ message }}</li>
+                        {% endfor %}
+                    </ul>
+                {% endif %}
+            </div>
+        </div> 
+    </div>
+
+    <div class="card my-4">
+        <h4 class="midashi">正常に動作しなかった場合</h4>
+        <div class="card-body">
+            <div class="row">
+                <p>
+                    PCやブラウザ、セキュリティソフトの設定によって、攻撃そのものが正しく動作しない場合があります。
+                    その場合はお手数をおかけしますが、以下の動画を確認して攻撃の危険性について学習していただけると幸いです。
+                </p>
+                <video controls="controls" width="90%" height="auto" preload>
+                    <source src="../../static/mitmlearning/file/demo.mp4" type="video/mp4">
+                </video>
+            </div>
+        </div> 
+    </div>
+</div>
+
+
+
+<script src="{% static 'mitmlearning/js/feedback.js' %}"></script>
+
+{% endblock %}

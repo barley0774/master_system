@@ -1,0 +1,88 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}無線LANのセキュリティリスク学習{% endblock %}
+
+{% block h1 %}無線LANのセキュリティリスク学習{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a class="current" href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+
+<link rel="stylesheet" href="{% static 'mitmlearning/css/index.css' %}">
+
+<div class="contents">
+    <div class="card my-4">
+        <h4 class="midashi">はじめに</h4>
+        <div class="card-body">
+            <div class="row">
+                <p>
+                    ここでは、無線LANのセキュリティリスクについて学習することが出来ます。
+                    このシステムでは現在使用しているPCに対して、実際に無線LANで起こりうる攻撃を再現し実施します。
+                    再現して攻撃を実施をしますが、使用しているPCに異常は発生しませんのでご安心ください。
+                    それでも不安な方は、本システムのご利用を控えるようにお願いいたします。
+                    一部、外部ネットワークに接続して作業をしてもらいますが、外部ネットワーク(Google等)に何か影響を及ぼすことはありません。
+                </p>
+            
+                <p>
+                    　学習の基本的な流れは以下のとおりです。
+                    <ol>
+                        <li>以下にある体験開始ボタン(sslstrip、DNS Spoofing)を押す</li>
+                        <li>メニューから学習シナリオを選択して、学習シナリオを確認する。</li>
+                        <li>学習シナリオにある作業内容を進めていく。</li>
+                        <li>全ての作業が終了したらメニューからフィードバックを選択して、フィードバックを確認する</li>
+                        <li>メニューから用語集を選択して、体験した攻撃について原理の理解と対策方法を確認する</li>
+                    </ol>
+                    上部にあなたのIPアドレスとゲートウェイアドレスを表示しています。
+                    ネットワークが異なる場合、学習が正常に機能しないので同一ネットワークになるようにしてください。
+                    仕様上、盗聴した情報が表示されない恐れがあります。その場合、お手数ですが最初から作業をするか
+                    フィードバック画面にある動画を閲覧していただけると幸いです。
+                </p>
+            </div>
+        </div>
+    </div>
+    
+    <div class="card my-4">
+        <h4 class="midashi">体験開始</h4>
+        <div class="card-body">
+            <div class="row">
+                <p>体験開始ボタンを押下すると、無線LANに関する攻撃が実行されます。</p>
+                <p class="heading tag">sslstripについて体験</p>
+                <form action="{% url 'sslstrip' %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <input type="submit" name="sslstrip_button" class="btn btn-outline-info" value="sslstrip 体験開始">
+                    </div>
+                </form>
+                <p></p>
+                <p class="heading tag">DNS Spoofingについて体験</p>
+                <form action="{% url 'dnsspoof' %}" method="post">
+                    {% csrf_token %}
+                    <div class="d-grid gap-2">
+                        <input type="submit" name="sslstrip_button" class="btn btn-outline-info" value="DNS Spoof 体験開始">
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+
+</div>
+
+{% endblock %}
+

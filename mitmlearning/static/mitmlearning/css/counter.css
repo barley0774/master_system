@@ -1,0 +1,11 @@
+img {
+    margin-right: 10px;
+    width: 800px;
+    height: 500px;
+    border: 1px solid #ddd;
+    object-fit: scale-down;
+  }
+  
+  img:last-child {
+    margin-right: 0;
+  }

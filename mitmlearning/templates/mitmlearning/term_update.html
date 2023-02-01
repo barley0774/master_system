@@ -1,0 +1,59 @@
+{% extends 'base2.html' %}
+{% load widget_tweaks %}
+
+{% block title %}用語修正{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a class="current" href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<div class="card my-4">
+    <h4 class="midashi">用語の更新</h4>
+    <div class="card-body">
+        <div class="row">
+            <form method="post" enctype="multipart/form-data">
+                {% csrf_token %}
+                <div>
+                    <p class="heading tag">用語の名称</p>
+                    <p>{% render_field form.term class="form-control" placeholder="用語の名称を入力" %}</p>
+                </div>
+                <div>
+                    <p class="heading tag">カテゴリ</p>
+                    <p>{% render_field form.category class="form-control" placeholder="カテゴリを入力" %}</p>
+                </div>
+                <div>
+                    <p class="heading tag">用語の説明</p>
+                    <p>{% render_field form.text class="form-control" placeholder="説明を入力" %}</p>
+                </div>
+                <div>
+                    <p class="heading tag">画像のアップロード</p>
+                    <p>{% render_field form.image class="form-control" placeholder="画像を選択" %}</p>
+                </div>
+                <br>
+                <div class="d-grid gap-2 d-md-flex">
+                    <input type="submit" class="btn btn-outline-dark" value="修正する">
+                </div>
+            </form>
+            <p></p>
+            <div class="d-grid gap-2 d-md-flex justify-content-md-end">
+                <button type="button" class="btn btn-outline-secondary" onclick="history.back()">戻る</button>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

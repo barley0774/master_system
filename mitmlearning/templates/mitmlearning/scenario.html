@@ -1,0 +1,97 @@
+{% extends 'base.html' %}
+{% load static%}
+
+{% block title %}学習シナリオ{% endblock %}
+
+{% block h1 %}学習シナリオ{% endblock %}
+
+{% block navbar %}
+    <nav>
+        <ul>
+            <li><a href="{% url 'index' %}">Home</a></li>
+            <li><a class="current" href="{% url 'scenario' %}">学習シナリオ</a></li>
+            <li><a href="{% url 'feedback' %}">フィードバック</a></li>
+            <li><a href="{% url 'list-term' %}">用語集</a></li>
+            {% if request.user.is_anonymous %}
+            <li><a href="{% url 'accounts:signin' %}">サインイン</a></li>
+            <li><a href="{% url 'accounts:login' %}">ログイン</a></li>
+            {% else %}
+            <li><a href="/"><span>{{ request.user }}さん</span></a></li>
+            {% endif %}
+            <li><a href="{% url 'accounts:logout' %}">ログアウト</a></li>
+        </ul>
+    </nav>
+{% endblock %}
+
+{% block content %}
+<link rel="stylesheet" href="{% static 'mitmlearning/css/scenario.css' %}">
+
+<div class="card my-4">
+    <h4 class="midashi">作業用ファイル</h4>
+    <div class="card-body">
+        <div class="row">
+            <ul>
+                <li><a href="{% url 'scenario_download_password' %}" class="">パスワードファイル</a></li>
+                <li><a href="{% url 'scenario_download_credential' %}" class="">作業ファイル</a></li>
+            </ul>
+        </div>
+    </div>
+</div>
+
+<div class="card my-4">
+    <h4 class="midashi">学習手順</h4>
+    <div class="card-body">
+        <div class="row">
+            <p>
+            　この画面では学習シナリオにしたがって、簡単な作業をしてもらいます。作業内容は以下にある「作業内容」を確認して進めるようにしてください。
+            赤色で表示している部分が現在の作業内容となっています。
+            作業完了後、右の完了欄にあるチェックボックスを押して、次の作業に移ってください。これを繰り返し行い、最後の作業まで進めるようにお願いします。
+            また、キャッシュを必ず削除してから作業を開始するようにしてください。
+            </p>
+            <p><a href="https://support.google.com/accounts/answer/32050">キャッシュの削除方法</a></p>
+            <p><img src="../../static/mitmlearning/file/sagyo.gif" alt="作業の進め方" style="display: block; margin: auto;"></p>
+        </div>
+    </div>
+</div>
+
+<div class="card my-4">
+    <h4 class="midashi">学習シナリオ</h4>
+    <div class="card-body">
+        <div class="row">
+            <p>
+            　あなたには、ある架空の企業に勤務する佐藤さんという人物になりきって作業を進めてもらいます。
+            佐藤さんは、ITリテラシーがあまり高くありません。IDやパスワードはファイルで管理しています。
+            今日は、あるサイトにアクセスしてファイルをアップロードする作業があります。
+            これからあなたには、その作業をしてもらいます。作業内容とは異なる作業をしてもらっても構いません。
+            ただ、ファイルをサイトにアップロードするということは必ずこなすようにしてください。
+            </p>
+        </div>
+    </div>
+</div>
+
+<div class="card my-4">
+    <h4 class="midashi">作業内容</h4>
+    <div class="card-body">
+        <div class="row">
+            <table class="table" id="scenario-table" align="center">
+                <tr class="table-infomation" id="field">
+                    <td scope="col">#</td>
+                    <td scope="col" align="center">手順</td>
+                    <td scope="col" align="center">完了</td>
+                </tr>
+
+                <!-- シナリオを表示する データベース版 -->
+                {% for block in scenario_block %}
+                <tr>
+                    <td scope="row">{{block.order}}</td>
+                    <td align="left"><b>{{block.content}}</b></td>
+                    <td id="complete" align="center"><input type="checkbox"></td>
+                </tr>
+                {% endfor %}
+            </table>
+        </div>
+    </div>
+</div>
+
+<script src="{% static 'mitmlearning/js/scenario.js' %}"></script>
+{% endblock content %}

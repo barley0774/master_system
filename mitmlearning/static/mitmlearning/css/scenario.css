@@ -1,0 +1,37 @@
+#scenario-table{
+    width: 90%;
+    margin-left: auto;
+    margin-right: auto;
+}
+
+#complete{
+    width: 60px;
+}
+
+.table-infomation{
+  background-color: #594545;
+  color: #fff;
+}
+
+#grayscale{
+    color: gray;
+}
+
+/* .my-parts {
+    border-collapse: collapse;
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    table-layout: fixed;
+    width: 100%;
+  }
+  .my-parts th, .my-parts td {
+    border-top: 1px solid rgba(0,0,0,.1);
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    padding: .6em;
+    text-align: center;
+  }
+  .my-parts th {
+    background: #2196F3;
+    color: #fff;
+    font-weight: bold;
+  } */
